@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="classpath*:repositoryConfig.xml"/>
+    <import resource="driver-url.xml"/>
+
+    <bean id="driver" class="org.neo4j.driver.GraphDatabase" factory-method="driver" destroy-method="close">
+        <constructor-arg ref="url"/>
+        <constructor-arg ref="authToken"/>
+    </bean>
+
+    <bean id="transactionManager" class="science.aist.neo4j.transaction.TransactionManagerImpl">
+        <property name="driver" ref="driver"/>
+    </bean>
+
+    <bean id="nodiestNodeRepository" class="science.aist.neo4j.reflective.ReflectiveNeo4JNodeRepositoryImpl">
+        <qualifier type="science.aist.machinelearning.analytics.graph.it.nodes.NodiestNode"/>
+        <constructor-arg name="manager" ref="transactionManager"/>
+        <constructor-arg name="clazz" value="science.aist.machinelearning.analytics.graph.it.nodes.NodiestNode"/>
+    </bean>
+
+    <bean id="problemGeneRepository" class="science.aist.machinelearning.analytics.graph.ProblemGeneRepository">
+        <constructor-arg name="manager" ref="transactionManager"/>
+        <property name="repositories">
+            <util:map map-class="java.util.HashMap" key-type="java.lang.Class"
+                      value-type="science.aist.neo4j.repository.AbstractNeo4JRepository">
+                <entry key="science.aist.machinelearning.analytics.graph.it.nodes.NodiestNode"
+                       value-ref="nodiestNodeRepository"/>
+            </util:map>
+        </property>
+    </bean>
+
+    <bean id="solutionGeneRepository" class="science.aist.neo4j.reflective.ReflectiveNeo4JNodeRepositoryImpl">
+        <qualifier type="science.aist.machinelearning.core.SolutionGene"/>
+        <constructor-arg value="science.aist.machinelearning.core.SolutionGene"/>
+        <constructor-arg name="manager" ref="transactionManager"/>
+        <property name="repositories">
+            <util:map map-class="java.util.HashMap" key-type="java.lang.Class"
+                      value-type="science.aist.neo4j.repository.AbstractNeo4JRepository">
+                <entry key="science.aist.machinelearning.core.ProblemGene" value-ref="problemGeneRepository"/>
+                <entry key="science.aist.machinelearning.analytics.graph.it.nodes.NodiestNode"
+                       value-ref="nodiestNodeRepository"/>
+            </util:map>
+        </property>
+    </bean>
+
+    <bean id="bnalyticsRepository" class="science.aist.neo4j.reflective.ReflectiveNeo4JNodeRepositoryImpl">
+        <qualifier type="science.aist.machinelearning.analytics.graph.it.nodes.BnalyticsNode"/>
+        <constructor-arg value="science.aist.machinelearning.analytics.graph.it.nodes.BnalyticsNode"/>
+        <constructor-arg name="manager" ref="transactionManager"/>
+        <property name="repositories">
+            <util:map map-class="java.util.HashMap" key-type="java.lang.Class"
+                      value-type="science.aist.neo4j.repository.AbstractNeo4JRepository">
+                <entry key="science.aist.machinelearning.analytics.graph.nodes.StepNode" value-ref="stepRepository"/>
+                <entry key="science.aist.machinelearning.core.Problem" value-ref="problemRepository"/>
+                <entry key="science.aist.machinelearning.core.Solution" value-ref="solutionRepository"/>
+                <entry key="science.aist.machinelearning.analytics.graph.nodes.AnalyticsNode"
+                       value-ref="analyticsRepository"/>
+            </util:map>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>machinelearning-algorithm</artifactId>
+        <groupId>science.aist.machinelearning</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>machinelearning-algorithm-neuralnetwork</artifactId>
+
+    <properties>
+        <!-- Change the nd4j.backend property to nd4j-cuda-8.0-platform to use CUDA GPUs -->
+        <nd4j.backend>nd4j-native-platform</nd4j.backend>
+        <!-- Make sure when using cuda, that cuda 8.0 is installed on your pc.
+             https://developer.nvidia.com/cuda-80-ga2-download-archive -->
+        <!--<nd4j.backend>nd4j-cuda-8.0-platform</nd4j.backend>-->
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>${deeplearning4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <!--https://mvnrepository.com/artifact/org.nd4j/nd4j-cuda-8.0/0.9.1-->
+            <!--<artifactId>nd4j-cuda-8.0</artifactId>--><!-- Wanted to try with cuda, doesn't work, maybe next time -->
+            <version>${deeplearning4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-ui -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui_2.11</artifactId>
+            <version>${deeplearning4j.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>
