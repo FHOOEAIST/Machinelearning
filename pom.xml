@@ -29,6 +29,11 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
+        <maven-scm-publish-plugin.version>3.0.0</maven-scm-publish-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -42,39 +47,50 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@aist.fh-hagenberg.at:2224/Development/Machinelearning.git
-        </developerConnection>
+        <connection>scm:git:git@github.com:FHOOEAIST/Machinelearning.git</connection>
+        <url>https://github.com/FHOOEAIST/Machinelearning</url>
+        <developerConnection>scm:git:git@github.com:FHOOEAIST/Machinelearning.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
-            <id>maven-releases</id>
-            <url>https://aist.fh-hagenberg.at/nexus/repository/maven-releases/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>maven-snapshots</id>
-            <url>https://aist.fh-hagenberg.at/nexus/repository/maven-snapshots/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <site>
             <id>javadoc</id>
-            <url>dav:https://aist.fh-hagenberg.at/nexus/repository/javadoc/machinelearning/${project.version}</url>
+            <url>scm:git:ssh://git@github.com/FHOOEAIST/Machinelearning.git</url>
         </site>
     </distributionManagement>
 
+
     <name>Machinelearning</name>
     <description>Our own Machinelearning suite</description>
+    <url>https://github.com/FHOOEAIST/Machinelearning</url>
     <organization>
         <name>Advanced Information Systems and Technology</name>
         <url>https://aist.science</url>
     </organization>
+    <licenses>
+        <license>
+            <name>Mozilla Public License (MPL) version 2.0</name>
+            <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <issueManagement>
         <system>Gitlab</system>
-        <url>https://aist.fh-hagenberg.at/git/Development/Machinelearning</url>
+        <url>https://github.com/FHOOEAIST/Machinelearning/issues</url>
     </issueManagement>
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://aist-intern.fh-hagenberg.at/jenkins/job/Machinelearning/</url>
+        <url>https://aist-intern.fh-hagenberg.at/jenkins/job/machinelearning-pipeline/</url>
     </ciManagement>
+
     <developers>
         <developer>
             <id>AIST</id>
@@ -153,10 +169,38 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <version>${maven-scm-publish-plugin.version}</version>
                 <configuration>
+                    <scmBranch>site</scmBranch>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                    </compilerArgs>
                     <release>11</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -235,6 +279,39 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>os-release</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--no-permission-warning</arg>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                        <arg>${arguments}</arg>
+                                    </gpgArguments>
+                                </configuration>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>sonar-coverage</id>
             <activation>
