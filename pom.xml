@@ -150,9 +150,6 @@
                     <additionalJOptions>
                         <additionalJOption>--no-module-directories</additionalJOption>
                     </additionalJOptions>
-                    <sourceFileExcludes>
-                        <exclude>science/aist/machinelearning/algorithm/nn/NeuralNetwork.java</exclude>
-                    </sourceFileExcludes>
                     <encoding>UTF-8</encoding>
                 </configuration>
                 <reportSets>
@@ -219,9 +216,6 @@
                 <configuration>
                     <doclint>none</doclint>
                     <encoding>UTF-8</encoding>
-                    <sourceFileExcludes>
-                        <exclude>science/aist/machinelearning/algorithm/nn/NeuralNetwork.java</exclude>
-                    </sourceFileExcludes>
                 </configuration>
                 <executions>
                     <execution>
