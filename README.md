@@ -1,15 +1,10 @@
 # Machinelearning
 
-Detailed documentation can be found [here](src/site/markdown/documentation.md).
+Detailed documentation can be found [here](https://fhooeaist.github.io/Machinelearning/).
 
 ## Getting Started
 
 The project is split into multiple modules. The base entrypoint for algorithms is the machinelearning-algorithm module.
-
-## FAQ
-
-If you have any questions, please checkout our <insert FAQ link here if using maven site, otherwise write a small FAQ
-section here>.
 
 ## Contributing
 
@@ -27,4 +22,4 @@ distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 If you are going to use this project as part of a research paper, we would ask you to reference this project by citing
 it.
 
-<TODO zenodo doi>
+[![DOI](https://zenodo.org/badge/414536085.svg)](https://zenodo.org/badge/latestdoi/414536085)
