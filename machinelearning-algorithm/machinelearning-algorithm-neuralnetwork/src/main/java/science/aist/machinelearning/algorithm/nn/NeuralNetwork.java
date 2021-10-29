@@ -10,7 +10,6 @@
 package science.aist.machinelearning.algorithm.nn;
 
 import org.apache.commons.io.FileUtils;
-import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.Updater;
@@ -18,9 +17,6 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.ui.api.UIServer;
-import org.deeplearning4j.ui.stats.StatsListener;
-import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -138,15 +134,6 @@ public class NeuralNetwork<GT, PT> extends AbstractAlgorithm<GT, PT> {
      * This function converts a double value to a GT
      */
     private Function<Double, GT> doubleToSolutionTransformer;
-    /**
-     * This flag represents whether to use visualization or not. Therefore it starts a small web server. Make sure, when
-     * setting this flag to true, that the web server is only running as long as the program runs. The web application
-     * starts under localhost:9000. If you want to change the port you can either set the org.deeplearning4j.ui.port
-     * system property or pass the port to the JVM argument: -Dorg.deeplearning4j.ui.port=9001
-     *
-     * @see <a href="https://deeplearning4j.org/visualization" target="_top">https://deeplearning4j.org/visualization</a>
-     */
-    private boolean useVisualization = false;
 
     /**
      * The update Frequency of the visualization.
@@ -332,14 +319,6 @@ public class NeuralNetwork<GT, PT> extends AbstractAlgorithm<GT, PT> {
         // Create a possibility to set every property.
         if (multiLayerNetworkConsumer != null)
             multiLayerNetworkConsumer.accept(neuralNetwork);
-
-        if (useVisualization) {
-            // https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/userInterface/UIExample.java
-            UIServer uiServer = UIServer.getInstance();
-            StatsStorage statsStorage = new InMemoryStatsStorage();
-            neuralNetwork.addListeners(new StatsListener(statsStorage, updateFrequency));
-            uiServer.attach(statsStorage);
-        }
 
         setInit();
     }
@@ -594,54 +573,6 @@ public class NeuralNetwork<GT, PT> extends AbstractAlgorithm<GT, PT> {
         this.activationForLayers = activations;
         specificOptions.put("activation", new Descriptor<>(activations));
         return this;
-    }
-
-    /**
-     * This flag represents whether to use visualization or not. Therefore it starts a small web server. Make sure, when
-     * setting this flag to true, that the web server is only running as long as the program runs. Be aware of the fact,
-     * that visualization cost some computing time and should only be using during testing. So you should probably add
-     * something like that to the end of your programm:
-     * <pre>
-     * try {
-     *   Thread.sleep(Long.MAX_VALUE);
-     * } catch (InterruptedException e) {
-     *   e.printStackTrace();
-     * }
-     * </pre>
-     *
-     * @param visualization   flag visualization
-     * @param updateFrequency The update Frequency of the visualization.
-     * @return this
-     * @see <a href="https://deeplearning4j.org/visualization" target="_top">https://deeplearning4j.org/visualization</a>
-     */
-    public NeuralNetwork<GT, PT> useVisualization(boolean visualization, int updateFrequency) {
-        this.useVisualization = visualization;
-        this.updateFrequency = updateFrequency;
-        specificOptions.put("useVisualization", new Descriptor<>(true));
-        specificOptions.put("updateFrequency", new Descriptor<>(true));
-        return this;
-    }
-
-    /**
-     * This flag represents whether to use visualization or not. Therefore it starts a small web server. Make sure, when
-     * setting this flag to true, that the web server is only running as long as the program runs. Be aware of the fact,
-     * that visualization cost some computing time and should only be using during testing. So you should probably add
-     * something like that to the end of your programm:
-     * <pre>
-     * try {
-     *   Thread.sleep(Long.MAX_VALUE);
-     * } catch (InterruptedException e) {
-     *   e.printStackTrace();
-     * }
-     * </pre>
-     * Same as {@link NeuralNetwork#useVisualization(boolean, int)} with updateFrequency set to 1.
-     *
-     * @param visualization flag visualization
-     * @return this
-     * @see <a href="https://deeplearning4j.org/visualization" target="_top">https://deeplearning4j.org/visualization</a>
-     */
-    public NeuralNetwork<GT, PT> useVisualization(boolean visualization) {
-        return useVisualization(visualization, 1);
     }
 
     /**
