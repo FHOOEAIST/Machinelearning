@@ -14,7 +14,7 @@
     <groupId>science.aist.machinelearning</groupId>
     <artifactId>machinelearning</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>machinelearning-core</module>
         <module>machinelearning-analytics</module>
@@ -58,7 +58,7 @@
         <connection>scm:git:git@github.com:FHOOEAIST/Machinelearning.git</connection>
         <url>https://github.com/FHOOEAIST/Machinelearning</url>
         <developerConnection>scm:git:git@github.com:FHOOEAIST/Machinelearning.git</developerConnection>
-        <tag>machinelearning-1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
