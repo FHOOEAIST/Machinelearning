@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"science.aist.machinelearning.problem","l":"DoubleElement"},{"p":"science.aist.machinelearning.problem.mapping","l":"DoubleElementToDoubleMapper"},{"p":"science.aist.machinelearning.problem.mapping","l":"DoubleToDoubleElementMapper"}]

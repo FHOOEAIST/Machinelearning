@@ -1,0 +1,7 @@
+science.aist.machinelearning.algorithm.crossover
+science.aist.machinelearning.algorithm.mutation
+science.aist.machinelearning.problem
+science.aist.machinelearning.problem.fitness
+science.aist.machinelearning.problem.fitness.evaluation
+science.aist.machinelearning.problem.fitness.runtime
+science.aist.machinelearning.problem.mapping

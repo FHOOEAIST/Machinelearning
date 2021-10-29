@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"science.aist.machinelearning.example","l":"GeneticAlgorithmByGPTest"},{"p":"science.aist.machinelearning.example","l":"IterativeLocalSearchByGPTest"},{"p":"science.aist.machinelearning.example","l":"LocalSearchByGPTest"}]

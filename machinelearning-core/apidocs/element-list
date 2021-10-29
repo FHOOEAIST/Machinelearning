@@ -1,0 +1,8 @@
+science.aist.machinelearning.core
+science.aist.machinelearning.core.analytics
+science.aist.machinelearning.core.experiment
+science.aist.machinelearning.core.fitness
+science.aist.machinelearning.core.logging
+science.aist.machinelearning.core.mapping
+science.aist.machinelearning.core.options
+science.aist.machinelearning.core.util

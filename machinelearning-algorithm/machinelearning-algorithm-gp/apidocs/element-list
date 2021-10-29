@@ -1,0 +1,7 @@
+science.aist.machinelearning.algorithm.gp
+science.aist.machinelearning.algorithm.gp.nodes.basic
+science.aist.machinelearning.algorithm.gp.nodes.heuristic
+science.aist.machinelearning.algorithm.gp.nodes.math
+science.aist.machinelearning.algorithm.gp.nodes.programming
+science.aist.machinelearning.algorithm.gp.util
+science.aist.machinelearning.algorithm.gp.visualisation.jgraphx
