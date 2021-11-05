@@ -14,7 +14,7 @@ pipeline {
                 script{
                     try {
                         sh '''
-                        containerId=$( head -1 /proc/self/cgroup|cut -d/ -f3 )
+                        containerId=jenkins
                         docker network create neo4jmltest
                         docker network connect neo4jmltest $containerId
                         docker container run --rm --network neo4jmltest --name neo4j-graph-ml-db -d aist.fh-hagenberg.at:18444/repository/docker-util/aist-neo4j-with-apoc
@@ -22,7 +22,7 @@ pipeline {
                     } catch(ex) {
                         echo 'could not start docker container, trying to reboot it...'
                         sh '''
-                        containerId=$( head -1 /proc/self/cgroup|cut -d/ -f3 )
+                        containerId=jenkins
                         docker network disconnect neo4jmltest $containerId || true
                         docker container stop neo4j-graph-ml-db || true
                         docker network rm neo4jmltest
