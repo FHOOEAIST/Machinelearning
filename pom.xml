@@ -49,6 +49,7 @@
         <jacoco.plugin.version>0.8.4</jacoco.plugin.version>
 	<sonar-jacoco-listeners.version>5.14.0.18788</sonar-jacoco-listeners.version>
         <sonar.java.libraries>${project.build.directory}/dependency</sonar.java.libraries>
+        <sonar.coverage.jacoco.xmlReportPaths>${user.dir}/target/site/jacoco-aggregate/**/jacoco.xml, target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <scm>
@@ -380,6 +381,16 @@
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
+                            </execution>
+                            <execution>
+                                <id>report-aggregate</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${user.dir}/target/site/jacoco-aggregate/${artifactId}</outputDirectory>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
