@@ -62,7 +62,7 @@ pipeline {
                 always {
                   junit '**/target/surefire-reports/TEST-*.xml'
                    sh '''
-                  containerId=$( head -1 /proc/self/cgroup|cut -d/ -f3 )
+                  containerId=jenkins
                   docker network disconnect neo4jmltest $containerId
                     docker container stop neo4j-graph-ml-db
                     docker network rm neo4jmltest
